@@ -1,0 +1,113 @@
+{
+    "buildCommand": "npm run build",
+    "outputDirectory": ".next",
+    "framework": "nextjs",
+    "regions": [
+        "iad1"
+    ],
+    "functions": {
+        "src/app/api/**/*.ts": {
+            "runtime": "@vercel/node"
+        },
+        "src/app/api/search/route.ts": {
+            "runtime": "edge"
+        }
+    },
+    "rewrites": [
+        {
+            "source": "/api/(.*)",
+            "destination": "/api/$1"
+        }
+    ],
+    "headers": [
+        {
+            "source": "/(.*)",
+            "headers": [
+                {
+                    "key": "X-Frame-Options",
+                    "value": "DENY"
+                },
+                {
+                    "key": "X-Content-Type-Options",
+                    "value": "nosniff"
+                },
+                {
+                    "key": "Referrer-Policy",
+                    "value": "origin-when-cross-origin"
+                }
+            ]
+        },
+        {
+            "source": "/sw.js",
+            "headers": [
+                {
+                    "key": "Cache-Control",
+                    "value": "public, max-age=0, must-revalidate"
+                },
+                {
+                    "key": "Service-Worker-Allowed",
+                    "value": "/"
+                }
+            ]
+        },
+        {
+            "source": "/manifest.json",
+            "headers": [
+                {
+                    "key": "Content-Type",
+                    "value": "application/manifest+json"
+                },
+                {
+                    "key": "Cache-Control",
+                    "value": "public, max-age=31536000, immutable"
+                }
+            ]
+        },
+        {
+            "source": "/icons/:path*",
+            "headers": [
+                {
+                    "key": "Cache-Control",
+                    "value": "public, max-age=31536000, immutable"
+                }
+            ]
+        }
+    ],
+    "images": {
+        "domains": [
+            "localhost",
+            "imveiimfzvhzadbjdxki.supabase.co"
+        ],
+        "formats": [
+            "image/webp",
+            "image/avif"
+        ],
+        "deviceSizes": [
+            640,
+            750,
+            828,
+            1080,
+            1200,
+            1920,
+            2048,
+            3840
+        ],
+        "imageSizes": [
+            16,
+            32,
+            48,
+            64,
+            96,
+            128,
+            256,
+            384
+        ]
+    },
+    "env": {
+        "NEXT_PUBLIC_SUPABASE_URL": "https://imveiimfzvhzadbjdxki.supabase.co",
+        "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImltdmVpaW1menZoemFkYmpkeGtpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxNTcwODUsImV4cCI6MjA3NzczMzA4NX0.ZcpNg4fwmw2qYh8TxxPZrzHtQeIu4Nu_wnp1Q0XfwyM",
+        "SUPABASE_SERVICE_ROLE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImltdmVpaW1menZoemFkYmpkeGtpIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MjE1NzA4NSwiZXhwIjoyMDc3NzMzMDg1fQ.gOuup0Z1ebQMxdIUGBBQn87Fp7KfnDwTLdQuap6ZZX8",
+        "GOOGLE_CLIENT_ID": "799489083269-urs3kbiabvl1uesp9sqdqtutdsna9q63.apps.googleusercontent.com",
+        "GOOGLE_CLIENT_SECRET": "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"
+    }
+}
